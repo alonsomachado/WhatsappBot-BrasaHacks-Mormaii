@@ -17,6 +17,7 @@ const launchConfig = {
 var myMap = new Map();
 var myState = new Map();
 var myList = new Map();
+var prevMsg = new Map();
 
 const Url = "https://apiexamples.vtexcommercestable.com.br/api/catalog_system/pvt/products/GetProductAndSkuIds?categoryId=1&_from=1&_to=10";
 
@@ -28,22 +29,19 @@ function start(client) {
     } else {
       myMap.set(message.from,message.sender.formattedName);
     }
+    prevMsg.set(message.chatId,message.body); //Manter a mensagem Anterior
 
     switch (message.body){
     case 'Hi mormaii':
-      await client.sendText(message.from, '👋 Oi, eu sou o Vini Guarujá, seu consultor mormaii!  😃🛒');
+      await client.sendText(message.from, '👋 Oi, eu sou o Viny Garopaba, seu consultor automatizado Mormaii!  😃🛒');
       await client.sendText(message.from, 'Que bom falar com você '+myMap.get(message.from)+' ! Eu vou te auxiliar em nosso atendimento. Ok?');
-      await client.sendText(message.chatId, '1 - Roupas Masculinas\n2 - Roupas Femininas\n3 - Roupas Infantis\n4 - Equipamentos\n5-  Promoções\n6 - Digital Influencers');
+      await client.sendText(message.chatId, '1 - Masculino\n2 - Feminino\n3 - Infantil\n4 - Equipamentos\n5 - Promoções\n6 - Digital Influencers\n7 - Fale com um Vendedor de Loja');
       await client.sendText(message.chatId, 'Digite MENU a qualquer momento para voltar para o menu principal.');
       console.log("Client:", client);
       break;
     
     case 'MENU':
-      await client.simulateTyping(message.chatId,true);
-      console.log("Message:", message);
-      await client.sendText(message.chatId, '1 - Roupas Masculinas\n2 - Roupas Femininas\n3 - Roupas Infantis\n4 - Equipamentos\n5-  Promoções\n6 - Digital Influencers');
-      await client.sendText(message.chatId, 'Digite MENU a qualquer momento para voltar para o menu principal.');
-      await client.simulateTyping(message.chatId,false);
+      menu(client, message.chatId);
       break;
 
     case 'PAGO':
@@ -66,7 +64,7 @@ function start(client) {
       });
       break;
     default:
-      await client.sendText(message.from, 'Desculpa, Não entendi.... 🌊');
+      await client.sendText(message.from, 'Me desculpe, mas não entendi.... 🌊');
     }
   });
 }
@@ -74,19 +72,49 @@ function start(client) {
 function menu(client, clientChatId){
   (async () => {
     await client.simulateTyping(message.chatId,true);
-    await client.sendText(clientChatId, '1 - Roupas Masculinas\n2 - Roupas Femininas\n3 - Roupas Infantis\n4 - Equipamentos\n5-  Promoções\n6 - Digital Influencers');
+    await client.sendText(clientChatId, '1 - Masculino\n2 - Feminino\n3 - Infantil\n4 - Equipamentos\n5 - Promoções\n6 - Digital Influencers\n7 - Fale com um Vendedor de Loja');
     await client.sendText(clientChatId, 'Digite MENU a qualquer momento para voltar para o menu principal.');
     await client.simulateTyping(message.chatId,false);
+    client.onMessage(async message2 => {
+      console.log("AQUI >> ",message2);
+      subcategories(client,message2.chatId);
+    })
   });
 }
 
 function subcategories(client, clientChatId){
   (async () => {
-    await client.sendText(clientChatId, '1 - Camisas👚 ');
-    await client.sendText(clientChatId, '2 - Bermudas🩳');
-    await client.sendText(clientChatId, '3 - Calçados👞👠');
-    await client.sendText(clientChatId, '4 - Relógios⌚');
-    await client.sendText(clientChatId, '5 - Óculos 🕶');
+    dataUrl = "http://www.irimageco.com/wp-content/uploads/2019/01/Under-Construction-Sign-for-Locator-300x141.png"; //Under Construction Image URL
+    switch (recieved){
+      case '1':
+          await client.sendText(clientChatId, '1 - Camisetas👕 \n2 - Bermudas🩳\n3 - Calçados👞\n4 - Relógios⌚\n5 - Óculos 🕶');
+          await client.sendImage(clientChatId, dataUrl, 'catalogX.jpeg', 'Nosso catálogo desta sessão.')
+          break;
+      case '2':
+          await client.sendText(clientChatId, '1 - Camisetas👕 \n2 - Moda Praia👙/🩱\n3 - Calçados👟👠\n4 - Relógios⌚\n5 - Óculos 🕶');
+          await client.sendImage(clientChatId, dataUrl, 'catalogX.jpeg', 'Nosso catálogo desta sessão.')
+          break;
+      case '3':
+          await client.sendText(clientChatId, '1 - Camisetas👕 \n2 - Neoprene\n3 - Calçados👟👠\n4 - Relógios⌚\n5 - Óculos 🕶');
+          await client.sendImage(clientChatId, dataUrl, 'catalogX.jpeg', 'Nosso catálogo desta sessão.')
+          break;
+      case '4':
+          await client.sendText(clientChatId, '1 - Mergulho🤿\n2 - Natação🏊🏼\n3 - Prachas Surf/Bobyboard🏄🏽‍♂️\n4 - Camping🏕️\n5 - Skate/Longboard🛹');
+          await client.sendImage(clientChatId, dataUrl, 'catalogX.jpeg', 'Nosso catálogo desta sessão.')
+          break;
+      case '5':
+          await client.sendText(clientChatId, '1 - Mochila🎒\n2 - Nautica🛥️\n3 - Natação🏊🏼');
+          await client.sendImage(clientChatId, dataUrl, 'catalogX.jpeg', 'Nosso catálogo desta sessão.')
+          break;
+      case '6':
+          await client.sendText(clientChatId, '1 - Marcos Giorgi\n2 - Tainá Hinkel\n3 - Carlos Burli\n4 - Rodrigo Leal Maizena\n5 - Leonardo de Deus');
+          await client.sendImage(clientChatId, dataUrl, 'catalogX.jpeg', 'Nosso catálogo desta sessão.')
+          break;
+      case '7':
+          await client.sendText(clientChatId, 'Opção não Disponível no momento. Visite nosso site: https://www.mormaiishop.com.br/institucional/nossas-lojas');
+          break;
+    }
+    itemQuestion(client,clientChatId);
   });
 }
 
@@ -113,7 +141,6 @@ function itemSize(client, clientChatId, item){
           break;
       case 'TenisF':
           await client.sendText(clientChatId, 'Qual Tamanho? 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44');
-      
           break;
       case 'TenisM':
           await client.sendText(clientChatId, 'Qual Tamanho? 37, 38, 39, 40, 41, 42, 43, 44');
