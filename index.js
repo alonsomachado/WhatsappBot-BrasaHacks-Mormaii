@@ -106,11 +106,11 @@ function subcategories(client, clientChatId){
           await client.sendText(clientChatId, '1 - Mochila🎒\n2 - Nautica🛥️\n3 - Natação🏊🏼');
           await client.sendImage(clientChatId, dataUrl, 'catalogX.jpeg', 'Nosso catálogo desta sessão.')
           break;
-      case '6':
+      case '6': //Listar atletas Patrocinados pela Marca
           await client.sendText(clientChatId, '1 - Marcos Giorgi\n2 - Tainá Hinkel\n3 - Carlos Burli\n4 - Rodrigo Leal Maizena\n5 - Leonardo de Deus');
           await client.sendImage(clientChatId, dataUrl, 'catalogX.jpeg', 'Nosso catálogo desta sessão.')
           break;
-      case '7':
+      case '7': //Funcionalidade para mandar para atendente de cada loja - Whatsapp de cada loja....
           await client.sendText(clientChatId, 'Opção não Disponível no momento. Visite nosso site: https://www.mormaiishop.com.br/institucional/nossas-lojas');
           break;
     }
