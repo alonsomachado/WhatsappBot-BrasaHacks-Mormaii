@@ -16,10 +16,12 @@ function start(client) {
   client.onMessage(async message => {
     if (message.body === 'Hi mormaii') {
       await client.sendText(message.from, '👋 Oi, eu sou o Vini Guarujá, seu consultor mormaii!  😃🛒');
-      await client.sendText(message.from, 'Que bom falar com você! Eu vou te auxiliar em nosso atendimento. Ok?');
+      await client.sendText(message.from, 'Que bom falar com você '+message.sender.formattedName+' ! Eu vou te auxiliar em nosso atendimento. Ok?');
       menu(client, message.from);
     }
     if (message.body === 'MENU') {
+      await client.simulateTyping(message.from,true);
+      console.log("Message:", message);
       menu(client, message.from);
     }
   });
@@ -29,11 +31,11 @@ function menu(client, clientChatId){
   (async () => {
     await client.sendText(clientChatId, '1 - Roupas Masculinas\n');
     await client.sendText(clientChatId, '2 - Roupas Femininas');
-    await client.sendText(clientChatId, '3 - Roupas Infantis');
+    /*await client.sendText(clientChatId, '3 - Roupas Infantis');
     await client.sendText(clientChatId, '4 - Equipamentos');
     await client.sendText(clientChatId, '5-  Promoções');
     await client.sendText(clientChatId, '6 - Digital Influencers');
-    await client.sendText(clientChatId, 'Digite MENU a qualquer momento para voltar para o menu principal.');
+    await client.sendText(clientChatId, 'Digite MENU a qualquer momento para voltar para o menu principal.');*/
   });
 }
 function subs(client, clientChatId){
